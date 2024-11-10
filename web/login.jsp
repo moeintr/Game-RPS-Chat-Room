@@ -5,8 +5,6 @@
   Date: 11/6/2024
   Time: 10:04 PM
   To change this template use File | Settings | File Templates.
-  cleanup
-  123
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
