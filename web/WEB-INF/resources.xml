@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <Resource id="JTA-Connection" type="DataSource">
+        JdbcDriver com.microsoft.sqlserver.jdbc.SQLServerDriver
+        JdbcUrl jdbc:sqlserver://localhost:1433;databaseName=Moein;encrypt=true;trustServerCertificate=true
+        UserName sa
+        Password aA@9394485791
+        maxIdle  5
+        maxActive 10
+        JtaManaged true
+    </Resource>
+    <Resource id="Non-JTA-Connection" type="DataSource">
+        JdbcDriver com.microsoft.sqlserver.jdbc.SQLServerDriver
+        JdbcUrl jdbc:sqlserver://localhost:1433;databaseName=Moein;encrypt=true;trustServerCertificate=true
+        UserName sa
+        Password aA@9394485791
+        maxIdle  5
+        maxActive 10
+        JtaManaged false
+    </Resource>
+</resources>
