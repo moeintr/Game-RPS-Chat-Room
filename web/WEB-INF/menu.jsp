@@ -9,7 +9,7 @@
             <li><a href="/game/findAll.do">RockPaperScissors</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a class="navbar-brand">${requestScope.username}</a></li>
+            <li><a class="navbar-brand">${sessionScope.username}</a></li>
             <li><a class="navbar-brand" href="/user/logout.do">Logout</a></li>
         </ul>
     </div>

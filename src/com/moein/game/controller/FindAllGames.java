@@ -19,7 +19,6 @@ public class FindAllGames extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            User user = (User) req.getAttribute("user");
             req.setAttribute("list", gameService.findAllGames());
             req.getRequestDispatcher("/game/rock-paper-scissors.jsp").forward(req, resp);
         } catch (Exception e) {
