@@ -133,9 +133,9 @@
     const wsUri = "ws://" + document.location.host + "/game-updates";
     const websocket = new WebSocket(wsUri);
 
-    function sendText() {
-        websocket.send("");
-    }
+    websocket.onopen = function() {
+        websocket.send("${sessionScope.username}");
+    };
 
     websocket.onmessage = function (evt) {
         onMessage(evt)
@@ -160,12 +160,13 @@
         var isVsMachine = document.getElementById('isVsMachine').checked;
         var playerOneName = document.getElementById('playerOneName').value;
         var playerOneMove = document.getElementById('playerOneMove').value;
+        var username = "${sessionScope.username}";
 
         if (!validateName(playerOneName)){
             return false;
         }
 
-        sendText();
+        //sendText();
 
         $.ajax({
             type: 'POST',
@@ -173,7 +174,8 @@
             data: {
                 isVsMachine: isVsMachine,
                 playerOneName: playerOneName,
-                playerOneMove: playerOneMove
+                playerOneMove: playerOneMove,
+                username: username
             },
             success: function (response) {
                 $('#finishTable').load(location.href + ' #finishTable');
@@ -190,11 +192,12 @@
         var gameId = row.find('#gameId').val();
         var playerTwoName = row.find('#playerTwoName').val();
         var playerTwoMove = row.find('#playerTwoMove').val();
+        var username = "${sessionScope.username}";
 
         if (!validateName(playerTwoName)){
             return false;
         }
-        sendText();
+        //sendText();
 
 
         $.ajax({
@@ -203,7 +206,8 @@
             data: {
                 gameId: gameId,
                 playerTwoName: playerTwoName,
-                playerTwoMove: playerTwoMove
+                playerTwoMove: playerTwoMove,
+                username: username
             },
             success: function (response) {
 
@@ -215,7 +219,7 @@
     }
     function validateName(name) {
         if (name == "" || name.length < 3) {
-            alert("name should have at least 3 character.");
+            alert("name should have atleast 3 character.");
             return false;
         }
         return true;

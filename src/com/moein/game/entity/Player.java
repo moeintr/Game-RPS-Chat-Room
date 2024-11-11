@@ -22,4 +22,8 @@ public class Player implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private GameMove gameMove;
+
+    @ManyToOne
+    @JoinColumn(name="username")
+    private User user;
 }

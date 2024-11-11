@@ -13,7 +13,7 @@
     </login-config>
     <error-page>
         <error-code>404</error-code>
-        <location>/error-page-not-exist.jsp</location>
+        <location>/login.jsp</location>
     </error-page>
     <error-page>
         <error-code>701</error-code>

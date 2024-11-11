@@ -25,11 +25,9 @@ public class GameService {
     @Resource
     private UserTransaction transaction;
     
-    public Game startGame(String playerOneName, GameMove playerOneGameMove) throws Exception {
+    public Game startGame(Player playerOne) throws Exception {
         Game game = new Game().builder()
-                              .playerOne(new Player().builder()
-                                            .playerName(playerOneName)
-                                            .gameMove(playerOneGameMove).build())
+                              .playerOne(playerOne)
                               .startGameDate(new Date())
                               .build();
         transaction.begin();
@@ -38,29 +36,23 @@ public class GameService {
         return savedGame;
     }
 
-    public Game finishGame(int gameId, String playerTwoName, GameMove playerTwoGameMove) throws NotFoundException, SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
-        Game game = crudRepository.findOne(Game.class,gameId);
+    public Game finishGame(int gameId, Player playerTwo) throws NotFoundException, SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+        Game game = findGameById(gameId);
 
-        if (Objects.isNull(game)) {
-            throw new NotFoundException("Game not found");
-        }
-
-        if (playerTwoName.equals("machine") || Objects.isNull(playerTwoGameMove)){  //means play vs machine
+        if (playerTwo.getPlayerName().equals("machine") || Objects.isNull(playerTwo.getGameMove())){  //means play vs machine
             int pick = new Random().nextInt(GameMove.values().length);
-            playerTwoGameMove = GameMove.values()[pick];
-            game.setPlayerTwo(new Player().builder().playerName(playerTwoName).gameMove(playerTwoGameMove).build());
-            game.setGameResult(compareMoves(game.getPlayerOne().getGameMove(), playerTwoGameMove));
-        }else { //means play vs human
-            game.setPlayerTwo(new Player().builder().playerName(playerTwoName).gameMove(playerTwoGameMove).build());
-            game.setGameResult(compareMoves(game.getPlayerOne().getGameMove(), playerTwoGameMove));
+            playerTwo.setGameMove(GameMove.values()[pick]);
         }
+
+        game.setPlayerTwo(playerTwo);
+        game.setGameResult(compareMoves(game.getPlayerOne().getGameMove(), playerTwo.getGameMove()));
         game.setFinishGameDate(new Date());
 
         transaction.begin();
         crudRepository.update(game);
         transaction.commit();
 
-        return findGameById(gameId);
+        return game;
     }
 
     private GameResult compareMoves(GameMove movePlayerOne, GameMove movePlayerTwo) {
