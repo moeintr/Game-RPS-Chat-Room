@@ -9,36 +9,33 @@
 <jsp:include page="/WEB-INF/menu.jsp"/>
 
 <div id="container" class="container">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" dir="rtl"
-         style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">ایجاد تیم</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="modal-title" id="gameChat">GameChat</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="close">&times;</span>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="team1Name" class="col-form-label" style="font-weight: 500;">نام تیم اول</label>
-                            <input type="text" class="form-control" id="team1Name" name="team1Name" required="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="team2Name" class="col-form-label">نام تیم دوم</label>
-                            <input type="text" id="team2Name" name="team2Name" class="form-control" required="">
-                        </div>
-                        <div class="col-3 my-score-insert mt-2">
-                            <label for="exampleFormControlInput2" class="form-label">درج امتیاز کل</label>
-                            <input type="number" class="form-control" id="exampleFormControlInput2"
-                                   name="exampleFormControlInput2" min="1">
-                        </div>
+            </div>
 
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-footer" data-bs-dismiss="modal">انصراف</button>
-                        <button type="submit" class="btn btn-success  btn-footer" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">ذخیره
-                        </button>
+            <div id="chatBox" class="chat-box">
+                <div class="chat-messages">
+                    <c:forEach items="${requestScope.listGameChats}" var="gameChat">
+                        <label for="userChat" class="form-control">${gameChat.user.username}</label>
+                        <input id="userChat" class="form-control" type="text"
+                               name="userChat" value="${gameChat.message}" readonly/>
+                    </c:forEach>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="Write your message..."/>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="form-control btn btn-primary" value="Send"/>
                     </div>
                 </div>
             </div>
@@ -67,7 +64,8 @@
             <input type="button" style="width: 100%" value="START" class="btn btn-primary" onclick="startGame(this)"/>
             <br/>
             <br/>
-            <input type="button" style="width: 100%" value="TEST" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"/>
+            <input type="button" id="myBtn" style="width: 100%" value="CHAT" class="btn btn-primary" onclick="openModal(this)"/>
+            <br/>
             <div class="table-responsive">
                 <table id="finishTable" class="table table-striped table-responsive table-hover" style="width: 100%">
                     <tr>
@@ -159,8 +157,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><input class="btn btn-sm table-responsive" type="button" data-bs-target="#exampleModal"
-                                       data-bs-toggle="modal" value="SEND"></td>
+                            <td><input class="btn btn-sm table-responsive" type="button" onclick="openModal(this, ${game.gameId})" value="CHAT"></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -169,6 +166,28 @@
     </div>
 </div>
 <script>
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+
+    function openModal(evt, gameId) {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
     //ctrl + alt + lS
     const wsUri = "ws://" + document.location.host + "/game-updates";
     const websocket = new WebSocket(wsUri);

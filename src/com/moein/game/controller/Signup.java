@@ -30,7 +30,7 @@ public class Signup extends HttpServlet {
                             .roleName("user")
                             .build()))
                     .build();
-            userService.createUser(user);
+            userService.saveUser(user);
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }catch (Exception e) {
             req.setAttribute("error", e.getMessage());

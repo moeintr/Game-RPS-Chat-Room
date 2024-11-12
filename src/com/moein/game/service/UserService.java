@@ -13,7 +13,6 @@ import javax.transaction.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -23,7 +22,7 @@ public class UserService {
     @Resource
     private UserTransaction transaction;
 
-    public void createUser(User user) throws DuplicateException, SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+    public void saveUser(User user) throws DuplicateException, SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         if (!findUsersByUsername(user.getUsername()).isEmpty()) {
             throw new DuplicateException("Username used before");
         }
@@ -36,7 +35,7 @@ public class UserService {
         if (userList.isEmpty()) {
             throw new NotFoundException("User Not Found By Username");
         } else if (!userList.get(0).getPassword().equals(password)) {
-            throw new NotFoundException("Incorrect Password");
+            throw new NotFoundException("Invalid Password");
         }
         return userList.get(0);
     }
