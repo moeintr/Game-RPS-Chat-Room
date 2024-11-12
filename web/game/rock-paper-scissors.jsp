@@ -9,11 +9,47 @@
 <jsp:include page="/WEB-INF/menu.jsp"/>
 
 <div id="container" class="container">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" dir="rtl"
+         style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">ایجاد تیم</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="team1Name" class="col-form-label" style="font-weight: 500;">نام تیم اول</label>
+                            <input type="text" class="form-control" id="team1Name" name="team1Name" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="team2Name" class="col-form-label">نام تیم دوم</label>
+                            <input type="text" id="team2Name" name="team2Name" class="form-control" required="">
+                        </div>
+                        <div class="col-3 my-score-insert mt-2">
+                            <label for="exampleFormControlInput2" class="form-label">درج امتیاز کل</label>
+                            <input type="number" class="form-control" id="exampleFormControlInput2"
+                                   name="exampleFormControlInput2" min="1">
+                        </div>
+
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-footer" data-bs-dismiss="modal">انصراف</button>
+                        <button type="submit" class="btn btn-success  btn-footer" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">ذخیره
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-primary">
         <div class="panel-heading">Desktop</div>
         <div class="panel-body">
             <label for="playerOneName" style="width: 100%; text-align: center">PlayerOneName</label>
-            <input type="text" id="playerOneName" name="playerOneName" maxlength="100" minlength="8" class="form-control" style="width: 100%"/>
+            <input type="text" id="playerOneName" name="playerOneName" maxlength="100" minlength="8"
+                   class="form-control" style="width: 100%"/>
             <br/>
             <label for="playerOneMove" style="width: 100%; text-align: center">PlayerOneMove</label>
             <select id="playerOneMove" name="playerOneMove" class="form-control">
@@ -24,10 +60,14 @@
             <br/>
             <div>
                 <label for="isVsMachine" style="width: 100%; text-align: center">VsMachine</label>
-                <input type="checkbox" id="isVsMachine" name="isVsMachine" value="VsMachine" style="width: 100%; align-self: center; cursor: pointer"/>
+                <input type="checkbox" id="isVsMachine" name="isVsMachine" value="VsMachine"
+                       style="width: 100%; align-self: center; cursor: pointer"/>
             </div>
             <br/>
             <input type="button" style="width: 100%" value="START" class="btn btn-primary" onclick="startGame(this)"/>
+            <br/>
+            <br/>
+            <input type="button" style="width: 100%" value="TEST" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"/>
             <div class="table-responsive">
                 <table id="finishTable" class="table table-striped table-responsive table-hover" style="width: 100%">
                     <tr>
@@ -119,8 +159,8 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><input class="btn btn-sm table-responsive" type="button" onclick="sendText()"
-                                       value="SEND"></td>
+                            <td><input class="btn btn-sm table-responsive" type="button" data-bs-target="#exampleModal"
+                                       data-bs-toggle="modal" value="SEND"></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -129,11 +169,11 @@
     </div>
 </div>
 <script>
-
+    //ctrl + alt + lS
     const wsUri = "ws://" + document.location.host + "/game-updates";
     const websocket = new WebSocket(wsUri);
 
-    websocket.onopen = function() {
+    websocket.onopen = function () {
         websocket.send("${sessionScope.username}");
     };
 
@@ -142,7 +182,9 @@
     };
 
     function onMessage(evt) {
-        alert(evt.data);
+        if (evt.data != "") {
+            alert(evt.data);
+        }
         $.ajax({
             type: 'GET',
             url: '/game/findAll.do',
@@ -162,7 +204,7 @@
         var playerOneMove = document.getElementById('playerOneMove').value;
         var username = "${sessionScope.username}";
 
-        if (!validateName(playerOneName)){
+        if (!validateName(playerOneName)) {
             return false;
         }
 
@@ -194,7 +236,7 @@
         var playerTwoMove = row.find('#playerTwoMove').val();
         var username = "${sessionScope.username}";
 
-        if (!validateName(playerTwoName)){
+        if (!validateName(playerTwoName)) {
             return false;
         }
         //sendText();
@@ -217,6 +259,7 @@
             }
         });
     }
+
     function validateName(name) {
         if (name == "" || name.length < 3) {
             alert("name should have atleast 3 character.");

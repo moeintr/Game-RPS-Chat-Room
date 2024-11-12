@@ -47,4 +47,9 @@ public class WebSocketEndpoint {
             session.getBasicRemote().sendText(result);
         }*/
     }
+    public static void broadcastGameUpdate() throws IOException {
+        for (Map.Entry<Session, String> entry : sessions.entrySet()) {
+            entry.getKey().getBasicRemote().sendText("");             
+        }
+    }
 }

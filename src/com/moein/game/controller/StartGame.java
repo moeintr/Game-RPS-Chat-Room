@@ -47,6 +47,8 @@ public class StartGame extends HttpServlet {
                 Player playerTwo = new Player().builder().playerName("machine").build();
                 Game finishedGame = gameService.finishGame(savedGame.getGameId(), playerTwo);
                 WebSocketEndpoint.broadcastGameUpdate(finishedGame);
+            }else {
+                WebSocketEndpoint.broadcastGameUpdate();
             }
 
             resp.sendRedirect("/game/findAll.do");
