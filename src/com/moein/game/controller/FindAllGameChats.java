@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/game/findAllGameChats")
+@WebServlet("/game/findAllGameChats.do")
 public class FindAllGameChats extends HttpServlet {
     @EJB
     private GameChatService gameChatService;

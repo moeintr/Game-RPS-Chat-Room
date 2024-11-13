@@ -41,6 +41,7 @@ public class SaveGameChat extends HttpServlet {
                     .message(message).build();
 
             gameChatService.saveGameChat(gameChat);
+            resp.sendRedirect("/game/findAllGameChats.do");
         } catch (Exception e) {
             req.setAttribute("error", e.getMessage());
             resp.sendError(701);
