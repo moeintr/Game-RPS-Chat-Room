@@ -24,18 +24,26 @@
 
             <div id="chatBox" class="chat-box">
                 <div class="chat-messages">
-                    <c:forEach items="${requestScope.listGameChats}" var="gameChat">
-                        <label for="userChat" class="form-control">${gameChat.user.username}</label>
-                        <input id="userChat" class="form-control" type="text"
-                               name="userChat" value="${gameChat.message}" readonly/>
-                    </c:forEach>
+                    <table id="gameChats" class="table table-striped table-responsive table-hover" style="width: 100%">
+                        <tr>
+                            <td><input type="button" class="form-control btn btn-primary" value="ShowMore..." onclick="getAllPagingGameChatsByGameId()"/></td>
+                            <td><input type="button" class="form-control btn btn-primary" value="ShowAll..." onclick="getAllGameChatsByGameId()"/></td>
+                        </tr>
+                        <c:forEach items="${sessionScope.listGameChats}" var="gameChat">
+                            <tr>
+                                <td><label for="userChat" class="form-control">${gameChat.user.username}</label></td>
+                                <td><input id="userChat" class="form-control" type="text"
+                                           name="userChat" value="${gameChat.message}" readonly/></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </div>
                 <div class="row">
                     <div class="col-md-9">
-                        <input type="text" class="form-control" placeholder="Write your message..."/>
+                        <input type="text" id="message" class="form-control" placeholder="Write your message..." minlength="1"/>
                     </div>
                     <div class="col-md-2">
-                        <input type="button" class="form-control btn btn-primary" value="Send"/>
+                        <input type="button" class="form-control btn btn-primary" value="Send" onclick="sendText(this)"/>
                     </div>
                 </div>
             </div>
@@ -63,8 +71,6 @@
             <br/>
             <input type="button" style="width: 100%" value="START" class="btn btn-primary" onclick="startGame(this)"/>
             <br/>
-            <br/>
-            <input type="button" id="myBtn" style="width: 100%" value="CHAT" class="btn btn-primary" onclick="openModal(this)"/>
             <br/>
             <div class="table-responsive">
                 <table id="finishTable" class="table table-striped table-responsive table-hover" style="width: 100%">
@@ -173,19 +179,88 @@
 
 
     function openModal(evt, gameId) {
+        modal.dataset.gameId = gameId;
+        modal.dataset.maxSizeRows = 0;
+        getAllPagingGameChatsByGameId();
         modal.style.display = "block";
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+        modal.dataset.gameId = "";
+        modal.dataset.maxSizeRows = 0;
     }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
-        modal.style.display = "none";
+        closeModal();
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            closeModal();
         }
+    }
+
+    function getAllGameChatsByGameId() {
+        $.ajax({
+            type: 'GET',
+            url: '/game/findAllGameChats.do',
+            data: {
+                gameId: modal.dataset.gameId
+            },
+            success: function (response) {
+                $('#chatBox').load(location.href + ' #chatBox');
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+    function getAllPagingGameChatsByGameId() {
+        var gameId = modal.dataset.gameId;
+        modal.dataset.maxSizeRows += 10;
+        var maxSizeRows = modal.dataset.maxSizeRows;
+        $.ajax({
+            type: 'GET',
+            url: '/game/findAllPagingChats.do',
+            data: {
+                gameId: gameId,
+                maxSizeRows: maxSizeRows
+            },
+            success: function (response) {
+                $('#chatBox').load(location.href + ' #chatBox');
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+    function sendText() {
+        var gameId = modal.dataset.gameId;
+        var username = "${sessionScope.username}";
+        var message = document.getElementById("message").value;
+        var maxSizeRows = modal.dataset.maxSizeRows;
+
+        $.ajax({
+            type: 'POST',
+            url: '/game/saveChat.do',
+            data: {
+                username: username,
+                gameId: gameId,
+                message: message,
+                maxSizeRows: maxSizeRows
+            },
+            success: function (response) {
+                $('#chatBox').load(location.href + ' #chatBox');
+            },
+            error: function (error) {
+
+            }
+        });
     }
 
     //ctrl + alt + lS
@@ -214,6 +289,10 @@
 
             }
         });
+
+        if (modal.dataset.gameId != "") {
+            getAllGameChatsByGameId();
+        }
     }
 
     function startGame(event) {

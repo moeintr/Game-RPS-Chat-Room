@@ -18,6 +18,8 @@ public interface CrudRepository<T, I> {
 
     List<T> findAll(Class<T> tClass, String whereClause, Map<String, Object> params);
 
+    List<T> findAllPaging(Class<T> tClass, String whereClause, Map<String, Object> params, String entityId, int firstResultPage, int maxSizePage);
+
     List<T> findAllWithChild(Class<T> tClass, String childName);
 
     List<T> findAllWithChild(Class<T> tClass, String childName, String whereClause, Map<String, Object> params);

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Stateless
 public class JpaCrudRepository<T, I> implements CrudRepository<T, I> {
@@ -46,6 +47,19 @@ public class JpaCrudRepository<T, I> implements CrudRepository<T, I> {
         Entity entity = tClass.getAnnotation(Entity.class);
         String entityName = entity.name();
         Query query = entityManager.createQuery("select entity from " + entityName + " entity where " + whereClause);
+        for (String paramName : params.keySet()) {
+            query.setParameter(paramName, params.get(paramName));
+        }
+        return query.getResultList();
+    }
+
+    public List<T> findAllPaging(Class<T> tClass, String whereClause, Map<String, Object> params, String entityId, int firstResultPage, int maxSizePage) {
+        Entity entity = tClass.getAnnotation(Entity.class);
+        String entityName = entity.name();
+        String q = "select entity from " + entityName + " entity where " + whereClause + " order by entity." + entityId + " desc";
+        Query query = entityManager.createQuery("select entity from " + entityName + " entity where " + whereClause + " order by entity." + entityId + " desc");
+        query.setFirstResult(firstResultPage);
+        query.setMaxResults(maxSizePage);
         for (String paramName : params.keySet()) {
             query.setParameter(paramName, params.get(paramName));
         }

@@ -1,10 +1,10 @@
 package com.moein.game.controller;
 
 
+import com.moein.game.endpoint.WebSocketEndpoint;
 import com.moein.game.entity.Game;
 import com.moein.game.entity.GameChat;
 import com.moein.game.entity.User;
-import com.moein.game.exception.NotFoundException;
 import com.moein.game.service.GameChatService;
 import com.moein.game.service.GameService;
 import com.moein.game.service.UserService;
@@ -41,7 +41,12 @@ public class SaveGameChat extends HttpServlet {
                     .message(message).build();
 
             gameChatService.saveGameChat(gameChat);
-            resp.sendRedirect("/game/findAllGameChats.do");
+
+            WebSocketEndpoint.broadcastGameUpdate();
+
+            req.getSession().setAttribute("gameId", gameId);
+            req.getSession().setAttribute("maxSizeRows", req.getParameter("maxSizeRows"));
+            resp.sendRedirect("/game/findAllPagingChats.do");
         } catch (Exception e) {
             req.setAttribute("error", e.getMessage());
             resp.sendError(701);
