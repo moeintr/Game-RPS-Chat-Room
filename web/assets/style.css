@@ -32,3 +32,27 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+/*
+.dynamic-label {
+    display: inline-block;
+    white-space: nowrap;
+    max-width: 200px;
+    text-align: center;
+}*/
+/*.dynamic-textarea {
+    max-width: fit-content;
+    max-height: fit-content;
+    min-width: fit-content;
+    min-height: fit-content;
+    margin-top: 0;
+}*/
+
+.chat-row {
+    display: flex;
+    flex-direction: column;
+}
+
+/*.username-label {
+    margin-bottom: 0;
+}*/

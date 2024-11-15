@@ -24,7 +24,10 @@
         <input type="text" id="username" name="username" class="form-control"/>
         <br/>
         <label for="password" style="width: 100%; text-align: center">Password</label>
-        <input type="text" ID="password" name="password" class="form-control"/>
+        <input type="password" id="password" name="password" class="form-control"/>
+        <br/>
+        <i id="showPassword" style="width: 100%; text-align: center" class="fas fa-eye-slash form-control" onclick="changeType()">ShowPassword</i>
+        <br/>
         <br/>
         <input type="submit" style="width: 100%" value="Login" class="btn btn-primary"/>
         <br/>
@@ -34,5 +37,21 @@
     </div>
   </div>
 </div>
+<script>
+  const passwordInput = document.getElementById("password");
+  const showPasswordIcon = document.getElementById("showPassword");
+
+  function changeType() {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      showPasswordIcon.classList.remove("fa-eye-slash");
+      showPasswordIcon.classList.add("fa-eye");
+    } else {
+      passwordInput.type = "password";
+      showPasswordIcon.classList.remove("fa-eye");
+      showPasswordIcon.classList.add("fa-eye-slash");
+    }
+  }
+</script>
 </body>
 </html>

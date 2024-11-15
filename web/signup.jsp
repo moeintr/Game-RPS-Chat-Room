@@ -24,10 +24,13 @@
                 <input type="text" id="username" minlength="4" name="username" class="form-control"/>
                 <br/>
                 <label for="password" style="width: 100%; text-align: center">Password</label>
-                <input type="text" id="password" minlength="8" name="password" class="form-control"/>
+                <input type="password" id="password" minlength="8" name="password" class="form-control"/>
                 <br/>
                 <label for="repassword" style="width: 100%; text-align: center">RepeatPassword</label>
-                <input type="text" id="repassword" minlength="8" name="repassword" class="form-control"/>
+                <input type="password" id="repassword" minlength="8" name="repassword" class="form-control"/>
+                <br/>
+                <i id="showRePasswords" style="width: 100%; text-align: center" class="fas fa-eye-slash form-control" onclick="changeType()">ShowPasswords</i>
+                <br/>
                 <br/>
                 <input type="submit" style="width: 100%" value="Signup" class="btn btn-primary"/>
                 <br/>
@@ -56,6 +59,24 @@
             return false;
         }
         return true;
+    }
+
+    const passwordInput = document.getElementById("password");
+    const repasswordInput = document.getElementById("repassword");
+    const showPasswordsIcon = document.getElementById("showPasswords");
+
+    function changeType() {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            repasswordInput.type = "text";
+            showPasswordIcon.classList.remove("fa-eye-slash");
+            showPasswordIcon.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            repasswordInput.type = "password";
+            showPasswordIcon.classList.remove("fa-eye");
+            showPasswordIcon.classList.add("fa-eye-slash");
+        }
     }
 </script>
 </body>

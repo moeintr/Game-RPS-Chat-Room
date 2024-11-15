@@ -24,23 +24,56 @@
 
             <div id="chatBox" class="chat-box">
                 <div class="chat-messages">
-                    <table id="gameChats" class="table table-striped table-responsive table-hover" style="width: 100%">
+                    <table id="gameChatsHeader" class="table table-striped table-responsive table-hover" style="width: 100%">
                         <tr>
-                            <td><input type="button" class="form-control btn btn-primary" value="ShowMore..." onclick="getAllPagingGameChatsByGameId()"/></td>
                             <td><input type="button" class="form-control btn btn-primary" value="ShowAll..." onclick="getAllGameChatsByGameId()"/></td>
                         </tr>
+                        <tr>
+                            <td><input type="button" class="form-control btn btn-primary" value="ShowMore..." onclick="getAllPagingGameChatsByGameId()"/></td>
+                        </tr>
+                    </table>
+                    <table id="gameChats" class="table table-striped table-responsive table-hover" style="width: 100%">
                         <c:forEach items="${sessionScope.listGameChats}" var="gameChat">
                             <tr>
-                                <td><label for="userChat" class="form-control">${gameChat.user.username}</label></td>
-                                <td><input id="userChat" class="form-control" type="text"
-                                           name="userChat" value="${gameChat.message}" readonly/></td>
+                                <td class="chat-row" style="width: 15%;">
+                                    <label for="userChat" class="form-control" style="display: inline-block; white-space: nowrap; max-width: fit-content;">
+                                            ${gameChat.user.username}
+                                    </label>
+                                </td>
+                                <td class="chat-row" style="width: 85%">
+                                    <textarea id="userChat" class="form-control" name="userChat" style="width: available; text-align: left; word-break: break-all; white-space: normal;" readonly>
+                                            ${gameChat.message}
+                                    </textarea>
+                                </td>
+                                <%--<c:choose>
+                                    <c:when test="${gameChat.user.username} == ${sessionScope.username}">
+                                        <td class="chat-row" style="direction: rtl;">
+                                            <label for="userChat" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content; direction: rtl;">
+                                                    ${gameChat.user.username}
+                                            </label>
+                                            <textarea id="userChat" class="form-control" name="userChat" style="max-width: fit-content; max-height: fit-content; min-width: fit-content; min-height: fit-content;margin-top: 0; direction: rtl;" readonly>
+                                                    ${gameChat.message}
+                                            </textarea>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td class="chat-row" style="direction: ltr">
+                                            <label for="userChat1" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content;">
+                                                    ${gameChat.user.username}
+                                            </label>
+                                            <textarea id="userChat1" class="form-control" name="userChat1" style="max-width: content-box; max-height: content-box; min-width: content-box; min-height: content-box;" readonly>
+                                                    ${gameChat.message}
+                                            </textarea>
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>--%>
                             </tr>
                         </c:forEach>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-md-9">
-                        <input type="text" id="message" class="form-control" placeholder="Write your message..." minlength="1"/>
+                        <input type="text" id="message" class="form-control" placeholder="Write your message..." minlength="1" onkeydown="sendTextByEnter(event)"/>
                     </div>
                     <div class="col-md-2">
                         <input type="button" class="form-control btn btn-primary" value="Send" onclick="sendText(this)"/>
@@ -238,6 +271,11 @@
 
             }
         });
+    }
+    function sendTextByEnter(event) {
+        if (event.key === 'Enter') {
+            sendText();
+        }
     }
 
     function sendText() {
