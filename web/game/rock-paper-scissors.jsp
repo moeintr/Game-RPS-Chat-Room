@@ -256,6 +256,7 @@
                 maxSizeRows: maxSizeRows
             },
             success: function (response) {
+                document.getElementById("message").value = "";
                 refreshGameChats();
             },
             error: function (error) {
