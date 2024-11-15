@@ -211,7 +211,7 @@
                 gameId: modal.dataset.gameId
             },
             success: function (response) {
-                $('#chatBox').load(location.href + ' #chatBox');
+                refreshGameChats();
             },
             error: function (error) {
 
@@ -221,8 +221,9 @@
 
     function getAllPagingGameChatsByGameId() {
         var gameId = modal.dataset.gameId;
-        modal.dataset.maxSizeRows += 10;
-        var maxSizeRows = modal.dataset.maxSizeRows;
+        var maxSizeRows = Number(modal.dataset.maxSizeRows) + 10;
+        modal.dataset.maxSizeRows = maxSizeRows;
+
         $.ajax({
             type: 'GET',
             url: '/game/findAllPagingChats.do',
@@ -231,7 +232,7 @@
                 maxSizeRows: maxSizeRows
             },
             success: function (response) {
-                $('#chatBox').load(location.href + ' #chatBox');
+                refreshGameChats();
             },
             error: function (error) {
 
@@ -255,7 +256,7 @@
                 maxSizeRows: maxSizeRows
             },
             success: function (response) {
-                $('#chatBox').load(location.href + ' #chatBox');
+                refreshGameChats();
             },
             error: function (error) {
 
@@ -276,23 +277,47 @@
     };
 
     function onMessage(evt) {
-        if (evt.data != "") {
-            alert(evt.data);
-        }
-        $.ajax({
-            type: 'GET',
-            url: '/game/findAll.do',
-            success: function (response) {
-                $('#finishTable').load(location.href + ' #finishTable');
-            },
-            error: function (error) {
+        if (evt.data == modal.dataset.gameId) {
+            var gameId = modal.dataset.gameId;
+            var maxSizeRows = Number(modal.dataset.maxSizeRows);
 
+            $.ajax({
+                type: 'GET',
+                url: '/game/findAllPagingChats.do',
+                data: {
+                    gameId: gameId,
+                    maxSizeRows: maxSizeRows
+                },
+                success: function (response) {
+                    refreshGameChats();
+                },
+                error: function (error) {
+
+                }
+            });
+        } else if (evt.data == "" || evt.data.toString().includes("Game Result")) {
+            if (evt.data != "") {
+                alert(evt.data);
             }
-        });
+            $.ajax({
+                type: 'GET',
+                url: '/game/findAll.do',
+                success: function (response) {
+                    refreshFinishTable();
+                },
+                error: function (error) {
 
-        if (modal.dataset.gameId != "") {
-            getAllGameChatsByGameId();
+                }
+            });
         }
+    }
+
+    function refreshGameChats() {
+        $('#gameChats').load(location.href + ' #gameChats');
+    }
+
+    function refreshFinishTable() {
+        $('#finishTable').load(location.href + ' #finishTable');
     }
 
     function startGame(event) {
@@ -318,7 +343,7 @@
                 username: username
             },
             success: function (response) {
-                $('#finishTable').load(location.href + ' #finishTable');
+                refreshFinishTable();
             },
             error: function (error) {
 

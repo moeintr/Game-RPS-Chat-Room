@@ -52,4 +52,9 @@ public class WebSocketEndpoint {
             entry.getKey().getBasicRemote().sendText("");             
         }
     }
+    public static void broadcastGameChatsUpdate(Integer gameId) throws IOException {
+        for (Map.Entry<Session, String> entry : sessions.entrySet()) {
+            entry.getKey().getBasicRemote().sendText(gameId.toString());
+        }
+    }
 }

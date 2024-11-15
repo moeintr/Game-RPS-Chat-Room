@@ -42,10 +42,10 @@ public class SaveGameChat extends HttpServlet {
 
             gameChatService.saveGameChat(gameChat);
 
-            WebSocketEndpoint.broadcastGameUpdate();
+            WebSocketEndpoint.broadcastGameChatsUpdate(gameId);
 
             req.getSession().setAttribute("gameId", gameId);
-            req.getSession().setAttribute("maxSizeRows", req.getParameter("maxSizeRows"));
+            req.getSession().setAttribute("maxSizeRows", Integer.parseInt(req.getParameter("maxSizeRows")));
             resp.sendRedirect("/game/findAllPagingChats.do");
         } catch (Exception e) {
             req.setAttribute("error", e.getMessage());
