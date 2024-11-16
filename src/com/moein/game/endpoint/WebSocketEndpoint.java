@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketEndpoint {
     private static Map<Session, String> sessions = new ConcurrentHashMap<>();
     //private static Set<Session> sessions = ConcurrentHashMap.newKeySet();
-    @OnOpen
+    /*@OnOpen
     public void onOpen(Session session) {
-        System.out.println("online");
-    }
+        //System.out.println("online");
+    }*/
     @OnMessage
     public void onMessage(Session session, String username) {
         sessions.put(session, username);

@@ -12,71 +12,76 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="row">
-                    <div class="col-md-9">
-                        <h5 class="modal-title" id="gameChat">GameChat</h5>
-                    </div>
-                    <div class="col-md-2">
-                        <span class="close">&times;</span>
-                    </div>
-                </div>
+                <table id="modalHeader" class="table table-striped table-responsive table-hover" style="width: 100%">
+                    <tr>
+                        <td style="display: flex; justify-content: space-between;">
+                            <h5 class="modal-title" id="gameChat">GameChat</h5>
+                            <span class="close">&times;</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
-
             <div id="chatBox" class="chat-box">
                 <div class="chat-messages">
-                    <table id="gameChatsHeader" class="table table-striped table-responsive table-hover" style="width: 100%">
-                        <tr>
-                            <td><input type="button" class="form-control btn btn-primary" value="ShowAll..." onclick="getAllGameChatsByGameId()"/></td>
-                        </tr>
-                        <tr>
-                            <td><input type="button" class="form-control btn btn-primary" value="ShowMore..." onclick="getAllPagingGameChatsByGameId()"/></td>
-                        </tr>
-                    </table>
                     <table id="gameChats" class="table table-striped table-responsive table-hover" style="width: 100%">
+                        <c:choose>
+                            <c:when test="${sessionScope.listGameChats.size() >= 10}">
+                                <tr>
+                                    <td><input type="button" class="form-control btn btn-primary" value="ShowAll..."
+                                               onclick="getAllGameChatsByGameId()"/></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" class="form-control btn btn-primary" value="ShowMore..."
+                                               onclick="getAllPagingGameChatsByGameId()"/></td>
+                                </tr>
+                            </c:when>
+                        </c:choose>
                         <c:forEach items="${sessionScope.listGameChats}" var="gameChat">
                             <tr>
-                                <td class="chat-row" style="width: 100%;">
-                                    <label for="userChat" class="form-control" style="display: inline-block; width: fit-content">
+                                <td class="chat-row" style="width: 100%;display: flex; height: fit-content">
+                                    <label for="userChat" class="form-control"
+                                           style="display: inline-block; width: fit-content">
                                             ${gameChat.user.username}
                                     </label>
-
-                                    <textarea id="userChat" class="form-control" name="userChat" style="width: 100%; text-align: left; word-break: break-all; white-space: normal;" readonly>
+                                    <textarea id="userChat" class="form-control" name="userChat"
+                                              style="width: 100%; text-align: left; word-break: break-all; white-space: normal;"
+                                              readonly>
                                             ${gameChat.message}
                                     </textarea>
                                 </td>
-                                <%--<c:choose>
-                                    <c:when test="${gameChat.user.username} == ${sessionScope.username}">
-                                        <td class="chat-row" style="direction: rtl;">
-                                            <label for="userChat" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content; direction: rtl;">
-                                                    ${gameChat.user.username}
-                                            </label>
-                                            <textarea id="userChat" class="form-control" name="userChat" style="max-width: fit-content; max-height: fit-content; min-width: fit-content; min-height: fit-content;margin-top: 0; direction: rtl;" readonly>
-                                                    ${gameChat.message}
-                                            </textarea>
-                                        </td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td class="chat-row" style="direction: ltr">
-                                            <label for="userChat1" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content;">
-                                                    ${gameChat.user.username}
-                                            </label>
-                                            <textarea id="userChat1" class="form-control" name="userChat1" style="max-width: content-box; max-height: content-box; min-width: content-box; min-height: content-box;" readonly>
-                                                    ${gameChat.message}
-                                            </textarea>
-                                        </td>
-                                    </c:otherwise>
-                                </c:choose>--%>
+                                    <%--<c:choose>
+                                        <c:when test="${gameChat.user.username} == ${sessionScope.username}">
+                                            <td class="chat-row" style="direction: rtl;">
+                                                <label for="userChat" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content; direction: rtl;">
+                                                        ${gameChat.user.username}
+                                                </label>
+                                                <textarea id="userChat" class="form-control" name="userChat" style="max-width: fit-content; max-height: fit-content; min-width: fit-content; min-height: fit-content;margin-top: 0; direction: rtl;" readonly>
+                                                        ${gameChat.message}
+                                                </textarea>
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="chat-row" style="direction: ltr">
+                                                <label for="userChat1" class="form-control username-label" style="display: inline-block; white-space: nowrap; max-width: fit-content;">
+                                                        ${gameChat.user.username}
+                                                </label>
+                                                <textarea id="userChat1" class="form-control" name="userChat1" style="max-width: content-box; max-height: content-box; min-width: content-box; min-height: content-box;" readonly>
+                                                        ${gameChat.message}
+                                                </textarea>
+                                            </td>
+                                        </c:otherwise>
+                                    </c:choose>--%>
                             </tr>
                         </c:forEach>
+                        <tr>
+                            <td style="display: flex; justify-content: space-between;">
+                                <input type="text" id="message" class="form-control" placeholder="Write your message..." style="width: 80%"
+                                       minlength="1" onkeydown="sendTextByEnter(event)"/>
+                                <input type="button" class="form-control btn btn-primary" value="Send" style="width: 20%; text-align: center"
+                                       onclick="sendText(this)"/>
+                            </td>
+                        </tr>
                     </table>
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <input type="text" id="message" class="form-control" placeholder="Write your message..." minlength="1" onkeydown="sendTextByEnter(event)"/>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="button" class="form-control btn btn-primary" value="Send" onclick="sendText(this)"/>
-                    </div>
                 </div>
             </div>
         </div>
@@ -107,11 +112,8 @@
             <div class="table-responsive">
                 <table id="finishTable" class="table table-striped table-responsive table-hover" style="width: 100%">
                     <tr>
-                        <%--<td>gameId</td>
-                        <td>playerOneId</td>--%>
                         <td>PlayerOneName</td>
                         <td>PlayerOneMove</td>
-                        <%--<td>playerTwoId</td>--%>
                         <td>PlayerTwoName</td>
                         <td>PlayerTwoMove</td>
                         <td> GameResult</td>
@@ -195,7 +197,8 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><input class="btn btn-sm table-responsive" type="button" onclick="openModal(this, ${game.gameId})" value="CHAT"></td>
+                            <td><input class="btn btn-sm table-responsive" type="button"
+                                       onclick="openModal(this, ${game.gameId})" value="CHAT"></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -224,12 +227,12 @@
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         closeModal();
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             closeModal();
         }
@@ -271,6 +274,7 @@
             }
         });
     }
+
     function sendTextByEnter(event) {
         if (event.key === 'Enter') {
             sendText();
