@@ -35,13 +35,12 @@
                     <table id="gameChats" class="table table-striped table-responsive table-hover" style="width: 100%">
                         <c:forEach items="${sessionScope.listGameChats}" var="gameChat">
                             <tr>
-                                <td class="chat-row" style="width: 15%;">
-                                    <label for="userChat" class="form-control" style="display: inline-block; white-space: nowrap; max-width: fit-content;">
+                                <td class="chat-row" style="width: 100%;">
+                                    <label for="userChat" class="form-control" style="display: inline-block; width: fit-content">
                                             ${gameChat.user.username}
                                     </label>
-                                </td>
-                                <td class="chat-row" style="width: 85%">
-                                    <textarea id="userChat" class="form-control" name="userChat" style="width: available; text-align: left; word-break: break-all; white-space: normal;" readonly>
+
+                                    <textarea id="userChat" class="form-control" name="userChat" style="width: 100%; text-align: left; word-break: break-all; white-space: normal;" readonly>
                                             ${gameChat.message}
                                     </textarea>
                                 </td>
