@@ -73,14 +73,6 @@
                                     </c:choose>--%>
                             </tr>
                         </c:forEach>
-                        <%--<tr>
-                            <td style="display: flex; justify-content: space-between;">
-                                <input type="text" id="message" class="form-control" placeholder="Write your message..." style="width: 80%"
-                                       minlength="1" onkeydown="sendTextByEnter(event)"/>
-                                <input type="button" class="form-control btn btn-primary" value="Send" style="width: 20%; text-align: center"
-                                       onclick="sendText(this)"/>
-                            </td>
-                        </tr>--%>
                     </table>
                     <table id="gameChatOper" class="table table-striped table-responsive table-hover" style="width: 100%">
                         <tr>
