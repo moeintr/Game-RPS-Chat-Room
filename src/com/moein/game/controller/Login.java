@@ -22,8 +22,8 @@ public class Login extends HttpServlet {
             String username = req.getParameter("username");
             String password = MD5.getHash(req.getParameter("password"));
             req.login(username, password);
-            User user = userService.findUserByUsernameAndPassword(username, password);
-            req.getSession().setAttribute("username", user.getUsername());
+            //User user = userService.findUserByUsernameAndPassword(username, password);
+            req.getSession().setAttribute("username", username);
             resp.sendRedirect("/game/findAll.do");
         } catch (Exception e) {
             resp.sendRedirect("/login-error.jsp");

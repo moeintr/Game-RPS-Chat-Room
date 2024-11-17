@@ -13,10 +13,25 @@
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 30px auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.chat-messages {
+    height: calc(100vh - 200px);
+    overflow: auto;
+    padding-bottom: 50px;
+}
+
+#gameChatOper {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 0;
 }
 
 .close {
