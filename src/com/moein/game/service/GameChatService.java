@@ -42,4 +42,15 @@ public class GameChatService {
         Collections.reverse(gameChats);
         return gameChats;
     }
+
+    public List<GameChat> findAllWithChildrenPaging(Game game, int firstResultPage, int maxSizePage) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("content", game);
+        List<GameChat> gameChats = crudRepository.findAllWithChildrenPaging(GameChat.class, "game", "user", "entity.game=:content", params, "gameChatId", firstResultPage, maxSizePage);
+        //crudRepository.findAllPaging(GameChat.class,"entity.game=:content", params, "gameChatId", firstResultPage, maxSizePage);
+        //gameChats.sort(Comparator.comparing(GameChat::getGameChatId));
+        //.stream().sorted(Comparator.comparing(GameChat::getGameChatId)).collect(Collectors.toList());
+        Collections.reverse(gameChats);
+        return gameChats;
+    }
 }

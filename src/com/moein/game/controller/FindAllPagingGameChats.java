@@ -40,7 +40,8 @@ public class FindAllPagingGameChats extends HttpServlet {
                          (int) req.getSession().getAttribute("gameId");*/
             Game game = gameService.findGameById(gameId);
 
-            List<GameChat> gameChats = gameChatService.findAllGameChatByGame(game, 0, maxSizeRows);
+            List<GameChat> gameChats = gameChatService.findAllWithChildrenPaging(game, 0, maxSizeRows);
+            //gameChatService.findAllGameChatByGame(game, 0, maxSizeRows);
             req.getSession().setAttribute("listGameChats", gameChats);
             //req.setAttribute("listGameChats", gameChats);
             req.getRequestDispatcher("/game/rock-paper-scissors.jsp").forward(req, resp);
