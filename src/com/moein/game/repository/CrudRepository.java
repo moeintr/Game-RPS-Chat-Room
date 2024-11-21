@@ -22,6 +22,8 @@ public interface CrudRepository<T, I> {
 
     List<T> findAllWithChild(Class<T> tClass, String childName);
 
+    List<T> findAllWithChildren(Class<T> tClass, String childOneName, String childTwoName);
+
     List<T> findAllWithChild(Class<T> tClass, String childName, String whereClause, Map<String, Object> params);
 
     List<T> findAllWithChildrenPaging(Class<T> tClass, String childOneName, String childTwoName, String whereClause, Map<String, Object> params, String entityId, int firstResultPage, int maxSizePage);

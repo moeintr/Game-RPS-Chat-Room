@@ -82,4 +82,7 @@ public class GameService {
         return crudRepository.findAll(Game.class);
     }
 
+    public List<Game> findAllGamesWithPlayers() {
+        return crudRepository.findAllWithChildren(Game.class, "playerOne", "playerTwo");
+    }
 }

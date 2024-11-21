@@ -83,6 +83,15 @@ public class JpaCrudRepository<T, I> implements CrudRepository<T, I> {
         return query.getResultList();
     }
 
+    public List<T> findAllWithChildren(Class<T> tClass, String childOneName, String childTwoName) {
+        Entity entity = tClass.getAnnotation(Entity.class);
+        String entityName = entity.name();
+
+        Query query = entityManager.createQuery("select distinct (entity) from " + entityName + " entity left join fetch entity." + childOneName + " childOne left join fetch entity." + childTwoName + " childTwo");
+
+        return query.getResultList();
+    }
+
     public List<T> findAllWithChildrenPaging(Class<T> tClass, String childOneName, String childTwoName, String whereClause, Map<String, Object> params, String entityId, int firstResultPage, int maxSizePage) {
         Entity entity = tClass.getAnnotation(Entity.class);
         String entityName = entity.name();
