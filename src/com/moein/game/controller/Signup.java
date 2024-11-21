@@ -20,8 +20,8 @@ public class Signup extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            String username = req.getParameter("username");
-            String password = req.getParameter("password");
+            String username = req.getParameter("username").trim();
+            String password = req.getParameter("password").trim();
             User user = new User().builder()
                     .username(username)
                     .password(MD5.getHash(password))
