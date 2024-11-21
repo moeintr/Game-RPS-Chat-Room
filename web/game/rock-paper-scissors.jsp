@@ -321,7 +321,7 @@
     };
 
     function onMessage(evt) {
-        if (evt.data == modal.dataset.gameId) {
+        if (evt.data == modal.dataset.gameId && evt.data != "") {
             var gameId = modal.dataset.gameId;
             var maxSizeRows = Number(modal.dataset.maxSizeRows);
 
