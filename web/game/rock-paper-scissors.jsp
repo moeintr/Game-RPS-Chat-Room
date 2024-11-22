@@ -97,9 +97,9 @@
             <br/>
             <label for="playerOneMove" style="width: 100%; text-align: center">PlayerOneMove</label>
             <select id="playerOneMove" name="playerOneMove" class="form-control">
-                <option value="ROCK">ROCK</option>
-                <option value="PAPER">PAPER</option>
-                <option value="SCISSORS">SCISSORS</option>
+                <option id="rock" value="ROCK">ROCK</option>
+                <option id="paper" value="PAPER">PAPER</option>
+                <option id="scissors" value="SCISSORS">SCISSORS</option>
             </select>
             <br/>
             <div>
