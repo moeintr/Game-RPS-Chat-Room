@@ -96,7 +96,7 @@ public class JpaCrudRepository<T, I> implements CrudRepository<T, I> {
         Entity entity = tClass.getAnnotation(Entity.class);
         String entityName = entity.name();
         //String q = "select entity from " + entityName + " entity where " + whereClause + " order by entity." + entityId + " desc";
-        Query query = entityManager.createQuery("select distinct (entity) from " + entityName + " entity left join fetch entity." + childOneName + " childOne left join fetch entity." + childTwoName + " childTwo where " + whereClause + " order by entity." + entityId + " desc");
+        Query query = entityManager.createQuery("select entity from " + entityName + " entity left join fetch entity." + childOneName + " childOne left join fetch entity." + childTwoName + " childTwo where " + whereClause + " order by entity." + entityId + " desc");
         query.setFirstResult(firstResultPage);
         query.setMaxResults(maxSizePage);
         for (String paramName : params.keySet()) {
