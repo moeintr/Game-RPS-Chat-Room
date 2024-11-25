@@ -24,7 +24,6 @@ public class GameChat {
     @JoinColumn(name="username", nullable = false)
     private User user;
 
-    @Lob
     @Column(columnDefinition = DataTypes.NVARCHAR_MAX, nullable = false)
     private String message;
 }
