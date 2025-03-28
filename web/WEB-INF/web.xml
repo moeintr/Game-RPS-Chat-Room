@@ -23,27 +23,6 @@
         <error-code>405</error-code>
         <location>/signup-error.jsp</location>
     </error-page>
-<!--    <servlet>-->
-<!--        <servlet-name>servletContainer</servlet-name>-->
-<!--        <servlet-class>-->
-<!--            com.sun.jersey.spi.container.servlet.ServletContainer-->
-<!--        </servlet-class>-->
-<!--        <init-param>-->
-<!--            <param-name>com.sun.jersey.config.property.packages</param-name>-->
-<!--            <param-value>org.j2os.project.api</param-value>-->
-<!--        </init-param>-->
-<!--        <init-param>-->
-<!--            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>-->
-<!--            <param-value>true</param-value>-->
-<!--        </init-param>-->
-<!--        <load-on-startup>1</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>servletContainer</servlet-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--        &lt;!&ndash;<url-pattern>/api/v1/*</url-pattern>&ndash;&gt;-->
-<!--    </servlet-mapping>-->
-
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>api</web-resource-name>
