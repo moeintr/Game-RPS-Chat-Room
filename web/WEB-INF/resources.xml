@@ -4,7 +4,7 @@
         JdbcDriver com.microsoft.sqlserver.jdbc.SQLServerDriver
         JdbcUrl jdbc:sqlserver://localhost:1433;databaseName=Moein;encrypt=true;trustServerCertificate=true
         UserName sa
-        Password aA@9394485791
+        Password 1234
         maxIdle  5
         maxActive 10
         JtaManaged true
@@ -13,7 +13,7 @@
         JdbcDriver com.microsoft.sqlserver.jdbc.SQLServerDriver
         JdbcUrl jdbc:sqlserver://localhost:1433;databaseName=Moein;encrypt=true;trustServerCertificate=true
         UserName sa
-        Password aA@9394485791
+        Password 1234
         maxIdle  5
         maxActive 10
         JtaManaged false
